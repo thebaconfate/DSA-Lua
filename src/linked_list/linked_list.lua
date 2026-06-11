@@ -59,12 +59,18 @@ function LinkedList:tail()
     return LinkedList.new(self._head.next)
 end
 
+---Prepends a value at the beginning of the linkedList
+---@param value any A value that has to be added to the front of the linkedList
+---@return LinkedList linkedList A new linkedList with the element added at the front
 function LinkedList:prepend(value)
     local node = Node.new(value)
     node.next = self._head
     return LinkedList.new(node)
 end
 
+---Appends a value to the end of the linkedList
+---@param value any A value that has to be added to the end of the linkedList
+---@return LinkedList linkedList A new linkedList with the element added at the back
 function LinkedList:append(value)
     if self:isEmpty() then
         return LinkedList.new(Node.new(value))
@@ -73,6 +79,10 @@ function LinkedList:append(value)
     end
 end
 
+---Creates a linkedList from a array-like Lua table
+---@param tbl table A table that has to be converted to a linkedList
+---@return LinkedList linkedList a new linkedList with the same elements and
+---order of the table
 function LinkedList.fromTable(tbl)
     local list = LinkedList.new()
     for i = #tbl, 1, -1 do
@@ -81,6 +91,8 @@ function LinkedList.fromTable(tbl)
     return list
 end
 
+---Returns the length of the linkedList
+---@return integer length
 function LinkedList:length()
     if self:isEmpty() then
         return 0
@@ -89,6 +101,9 @@ function LinkedList:length()
     end
 end
 
+---Gets the element at the nth position (counting starts at 1)
+---@param index integer
+---@return any value The value of the node at the nth index
 function LinkedList:nth(index)
     if index < 1 then
         error("Index must be at least 1")
@@ -101,10 +116,14 @@ function LinkedList:nth(index)
     end
 end
 
+---Returns whether or not the linkedList is empty or not
+---@return boolean isEmpty Whether the linkedList is empty
 function LinkedList:isEmpty()
     return self._head == nil
 end
 
+---Creates a stringified version of the linkedList
+---@return string string Returns a string of the linkedList
 function LinkedList:toString()
     local function listToString(list)
         if list:tail():isEmpty() then
@@ -115,9 +134,11 @@ function LinkedList:toString()
     return "{" .. listToString(self) .. "}"
 end
 
----comment
----@param func function
----@return LinkedList
+---Applies a function to each element of the linkedList and returns a new
+---linkedList with the result of the applied function.
+---@param func function A function to be applied to each node of the linkedList
+---@return LinkedList linkedList A new linkedList resulting of the function
+---applied to its elements
 function LinkedList:map(func)
     if self:isEmpty() then
         return LinkedList.new()
